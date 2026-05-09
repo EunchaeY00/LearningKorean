@@ -47,6 +47,8 @@ body{
   border-radius:30px;
   padding:30px;
   box-shadow:0 10px 30px rgba(0,0,0,0.1);
+ 
+  margin-top:80px;
 }
 
 .screen.active{
@@ -325,11 +327,41 @@ input{
   border-color:#ef4444;
 }
 
+.top-bar-global{ 
+  position:fixed;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90%;
+  max-width:900px;
+  z-index:999;
+  display:none;
+  justify-content:space-between;
+  align-items:center;
+  background:white;
+  padding:12px 18px;
+  border-radius:22px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.1);
+}
+
+#screen-welcome{
+  margin-top:0;
+}
+
 </style>
 </head>
 
 <body>
-
+<div class="top-bar-global">
+<div style="display:flex;gap:10px;align-items:center">
+<div class="avatar" id="global-avatar">
+</div>
+<div id="global-username"></div>
+</div>
+<div class="coin" id="global-score-display">
+⭐ 0점 / 100점
+</div>
+</div>
 <!-- 시작 -->
 <div class="screen active" id="screen-welcome">
 
@@ -386,22 +418,6 @@ onclick="startProgram()">
 
 <!-- 스토리 -->
 <div class="screen" id="screen-story">
-
-<div class="top-bar">
-
-<div style="display:flex;gap:10px;align-items:center">
-
-<div class="avatar" id="avatar"></div>
-
-<div id="username"></div>
-
-</div>
-
-<div class="coin" id="score-display">
-⭐ 0점 / 100점
-</div>
-
-</div>
 
 <div class="progress">
 <div class="progress-bar" id="progress-bar"></div>
@@ -673,9 +689,9 @@ return;
 }
 
 state.name = name;
-
-document.getElementById("avatar").textContent = name[0];
-document.getElementById("username").textContent = name;
+document.querySelector(".top-bar-global") .style.display = "flex";
+document.getElementById("global-avatar").textContent = name[0];
+document.getElementById("global-username").textContent = name;
 
 initStory();
 
@@ -880,7 +896,7 @@ alert(message);
 
 function updateScore(){
 
-document.getElementById("score-display")
+document.getElementById("global-score-display")
 .textContent =
 `⭐ ${state.score}점 / 100점`;
 
