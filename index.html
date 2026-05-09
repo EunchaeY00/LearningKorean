@@ -813,24 +813,43 @@ recognition.onresult = function(event){
 const spoken =
 event.results[0][0].transcript.trim();
 
+const normalize = (text) => {
+
+return text
+
+.normalize("NFC")
+
+.replace(/[\u200B-\u200D\uFEFF]/g, "")
+
+.replace(/[.,!?]/g,"")
+
+.replace(/\s/g,"")
+
+.trim();
+
+};
+
 const cleanTarget =
-STORY.sentence.replace(/\s/g,"");
+normalize(STORY.sentence);
 
 const cleanSpoken =
-spoken.replace(/\s/g,"");
+normalize(spoken);
 
 let message =
 `🗣 인식된 문장:\n"${spoken}"\n\n`;
 
-if(
-cleanSpoken.includes("토끼는 매일 학교에 갔어요") ||
-cleanSpoken === cleanTarget
-){
+if(cleanSpoken.includes(cleanTarget)){
 
 if(state.lang==="en"){
-message += "✅ Correct! Great job! 🌟";
+
+message +=
+"✅ Correct! Great job! 🌟";
+
 }else{
-message += "✅ Правильно! Отличная работа! 🌟";
+
+message +=
+"✅ Правильно! Отличная работа! 🌟";
+
 }
 
 state.score += 20;
@@ -840,9 +859,15 @@ updateScore();
 }else{
 
 if(state.lang==="en"){
-message += "❌ Try again slowly 😊";
+
+message +=
+"❌ Try again slowly 😊";
+
 }else{
-message += "❌ Попробуй ещё раз медленно 😊";
+
+message +=
+"❌ Попробуй ещё раз медленно 😊";
+
 }
 
 }
